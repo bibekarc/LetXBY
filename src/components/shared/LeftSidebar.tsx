@@ -10,7 +10,7 @@ import { useUserContext, INITIAL_USER } from "@/context/AuthContext";
 const LeftSidebar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { user, setUser, setIsAuthenticated, isPending } = useUserContext();
+  const { user, setUser, setIsAuthenticated, isLoading } = useUserContext();
 
   const { mutate: signOut } = useSignOutAccount();
 
@@ -36,7 +36,7 @@ const LeftSidebar = () => {
           />
         </Link>
 
-        {isPending || !user.email ? (
+        {isLoading || !user.email ? (
           <div className="h-14">
             <Loader />
           </div>
