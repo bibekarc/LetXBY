@@ -1,19 +1,24 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { multiFormatDateString } from "@/lib/utils";
-import { useUserContext } from "@/context/AuthContext";
-import { useDeletePost, useGetPostById, useGetUserPosts } from "@/lib/react-query/queriesAndMutations";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/shared/Loader";
-import PostStats from "@/components/shared/PostStats";
 import GridPostList from "@/components/shared/GridPostList";
+import PostStats from "@/components/shared/PostStats";
+
+import {
+  useGetPostById,
+  useGetUserPosts,
+  useDeletePost,
+} from "@/lib/react-query/queriesAndMutations";
+import { multiFormatDateString } from "@/lib/utils";
+import { useUserContext } from "@/context/AuthContext";
 
 const PostDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { user } = useUserContext();
 
-  const { data: post, isPending } = useGetPostById(id || "");
-  const { data: userPosts, isPending: isUserPostLoading } = useGetUserPosts(
+  const { data: post, isLoading } = useGetPostById(id);
+  const { data: userPosts, isLoading: isUserPostLoading } = useGetUserPosts(
     post?.creator.$id
   );
   const { mutate: deletePost } = useDeletePost();
@@ -44,13 +49,13 @@ const PostDetails = () => {
         </Button>
       </div>
 
-      {isPending || !post ? (
+      {isLoading || !post ? (
         <Loader />
       ) : (
         <div className="post_details-card">
           <img
             src={post?.imageUrl}
-            alt="post"
+            alt="creator"
             className="post_details-img"
           />
 
@@ -98,7 +103,7 @@ const PostDetails = () => {
                 <Button
                   onClick={handleDeletePost}
                   variant="ghost"
-                  className={`Post_details-delete_btn ${
+                  className={`ost_details-delete_btn ${
                     user.id !== post?.creator.$id && "hidden"
                   }`}>
                   <img

@@ -1,16 +1,8 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
-
-// utils.ts
-
-// Utility function to validate user ID format
-export function isUserIdFormatValid(id: string): boolean {
-  const regex = /^[a-zA-Z0-9][a-zA-Z0-9._-]{0,35}$/;
-  return regex.test(id);
+  return twMerge(clsx(inputs));
 }
 
 export const convertFileToUrl = (file: File) => URL.createObjectURL(file);
@@ -64,4 +56,3 @@ export const multiFormatDateString = (timestamp: string = ""): string => {
 export const checkIsLiked = (likeList: string[], userId: string) => {
   return likeList.includes(userId);
 };
-

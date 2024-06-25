@@ -1,11 +1,9 @@
-// import { useToast } from "@/components/ui/use-toast";
 import { Models } from "appwrite";
+// import { useToast } from "@/components/ui/use-toast";
 import Loader from "@/components/shared/Loader";
 import PostCard from "@/components/shared/PostCard";
 import UserCard from "@/components/shared/UserCard";
-import { useGetRecentPosts } from "@/lib/react-query/queriesAndMutations";
-import { useGetUsers } from "@/lib/react-query/queriesAndMutations";
-
+import { useGetRecentPosts, useGetUsers } from "@/lib/react-query/queriesAndMutations";
 
 const Home = () => {
   // const { toast } = useToast();
@@ -19,7 +17,7 @@ const Home = () => {
     data: creators,
     isLoading: isUserLoading,
     isError: isErrorCreators,
-  } = useGetUsers(6);
+  } = useGetUsers(10);
 
   if (isErrorPosts || isErrorCreators) {
     return (

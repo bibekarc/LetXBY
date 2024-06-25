@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+
 import {
   Home,
   Explore,
@@ -15,6 +16,7 @@ import RootLayout from "./_root/RootLayout";
 import SignupForm from "@/_auth/forms/SignupForm";
 import SigninForm from "@/_auth/forms/SigninForm";
 import { Toaster } from "@/components/ui/toaster";
+
 import "./globals.css";
 
 const App = () => {
@@ -40,6 +42,7 @@ const App = () => {
           <Route path="/update-profile/:id" element={<UpdateProfile />} />
         </Route>
       </Routes>
+
       <Toaster />
     </main>
   );

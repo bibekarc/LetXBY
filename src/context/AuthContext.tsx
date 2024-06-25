@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { createContext, useContext, useEffect, useState } from "react";
-import React from "react";
+
 import { IUser } from "@/types";
 import { getCurrentUser } from "@/lib/appwrite/api";
-import { isUserIdFormatValid } from "@/lib/utils";
 
 export const INITIAL_USER = {
   id: "",
@@ -16,7 +15,7 @@ export const INITIAL_USER = {
 
 const INITIAL_STATE = {
   user: INITIAL_USER,
-  isPending: false,
+  isLoading: false,
   isAuthenticated: false,
   setUser: () => {},
   setIsAuthenticated: () => {},
@@ -25,7 +24,7 @@ const INITIAL_STATE = {
 
 type IContextType = {
   user: IUser;
-  isPending: boolean;
+  isLoading: boolean;
   setUser: React.Dispatch<React.SetStateAction<IUser>>;
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -38,20 +37,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const [user, setUser] = useState<IUser>(INITIAL_USER);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isPending, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const checkAuthUser = async () => {
     setIsLoading(true);
     try {
       const currentAccount = await getCurrentUser();
       if (currentAccount) {
-        const userId = currentAccount.$id;
-  
-        if (!isUserIdFormatValid(userId)) {
-          console.log("Invalid user ID format from account data");
-          return false;
-        }
-  
         setUser({
           id: currentAccount.$id,
           name: currentAccount.name,
@@ -61,9 +53,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           bio: currentAccount.bio,
         });
         setIsAuthenticated(true);
-  
+
         return true;
       }
+
       return false;
     } catch (error) {
       console.error(error);
@@ -71,7 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     const cookieFallback = localStorage.getItem("cookieFallback");
@@ -89,7 +82,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const value = {
     user,
     setUser,
-    isPending,
+    isLoading,
     isAuthenticated,
     setIsAuthenticated,
     checkAuthUser,

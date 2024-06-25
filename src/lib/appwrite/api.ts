@@ -2,31 +2,12 @@ import { ID, Models, Query } from "appwrite";
 import { ImageGravity } from "appwrite";
 import { appwriteConfig, account, databases, storage, avatars } from "./config";
 import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "@/types";
-import { isUserIdFormatValid } from "../utils";
 
 /**
  * Checks whether the provided user ID is valid.
  * @param {string} userId - The ID of the user to check.
  * @returns {Promise<boolean>} - Returns true if the user ID is valid, otherwise false.
  */
-export async function isValidUserId(userId: string): Promise<boolean> {
-  if (!isUserIdFormatValid(userId)) {
-    console.log("Invalid user ID format");
-    return false;
-  }
-
-  try {
-    const user = await databases.getDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.userCollectionId,
-      userId
-    );
-    return !!user;
-  } catch (error) {
-    console.error("Error fetching user document:", error);
-    return false;
-  }
-}
 
 // ============================================================
 // AUTH
@@ -98,7 +79,10 @@ async function saveUserToDB(user: {
 // ============================== SIGN IN
 export async function signInAccount(user: { email: string; password: string }) {
   try {
-    const session = await account.createSession(user.email, user.password);
+    const session = await account.createEmailPasswordSession(
+      user.email, 
+      user.password
+    );
     return session;
   } catch (error) {
     console.error("Error signing in:", error);

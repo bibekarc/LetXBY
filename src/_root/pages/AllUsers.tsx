@@ -3,11 +3,10 @@ import Loader from "@/components/shared/Loader";
 import UserCard from "@/components/shared/UserCard";
 import { useGetUsers } from "@/lib/react-query/queriesAndMutations";
 
-
 const AllUsers = () => {
   const { toast } = useToast();
 
-  const { data: creators, isPending, isError: isErrorCreators } = useGetUsers();
+  const { data: creators, isLoading, isError: isErrorCreators } = useGetUsers();
 
   if (isErrorCreators) {
     toast({ title: "Something went wrong." });
@@ -19,7 +18,7 @@ const AllUsers = () => {
     <div className="common-container">
       <div className="user-container">
         <h2 className="h3-bold md:h2-bold text-left w-full">All Users</h2>
-        {isPending && !creators ? (
+        {isLoading && !creators ? (
           <Loader />
         ) : (
           <ul className="user-grid">
