@@ -3,6 +3,7 @@ import {
   useMutation,
   useQueryClient,
   useInfiniteQuery,
+  QueryClient,
 } from "@tanstack/react-query";
 
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
@@ -28,7 +29,6 @@ import {
   deleteSavedPost,
 } from "@/lib/appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
-import { QueryKey } from "@tanstack/react-query";
 
 // ============================================================
 // AUTH QUERIES
@@ -47,27 +47,23 @@ export const useSignInAccount = () => {
   });
 };
 
-
 // Define the type for the mutation parameters
 interface SavePostParams {
   userId: string;
   postId: string;
 }
-
-// Mutation for Saving a Post
 export const useSavePost = () => {
-  const queryClient = useQueryClient();
+  const queryClient: QueryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({ userId, postId }: SavePostParams) => savePost(userId, postId),
     onSuccess: () => {
       // Invalidate or refetch queries to keep your UI in sync
-      queryClient.invalidateQueries([QUERY_KEYS.GET_SAVED_POSTS]);
-      queryClient.invalidateQueries([QUERY_KEYS.GET_RECENT_POSTS]);
+      queryClient.invalidateQueries({ queryKey: [...QUERY_KEYS.GET_SAVED_POSTS] });
     },
     onError: (error) => {
       console.error("Error saving post:", error);
-    }
+    },
   });
 };
 
@@ -104,10 +100,9 @@ export const useGetPosts = () => {
       const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
       return lastId;
     },
-    initialPageParam: null,  // Add initialPageParam
+    initialPageParam: null, // Add initialPageParam
   });
 };
-
 
 export const useSearchPosts = (searchTerm: string) => {
   return useQuery({
@@ -116,7 +111,6 @@ export const useSearchPosts = (searchTerm: string) => {
     enabled: !!searchTerm,
   });
 };
-
 
 export const useGetRecentPosts = () => {
   return useQuery({
@@ -204,7 +198,6 @@ export const useLikePost = () => {
     },
   });
 };
-
 
 export const useDeleteSavedPost = () => {
   const queryClient = useQueryClient();

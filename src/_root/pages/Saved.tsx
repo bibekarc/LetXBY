@@ -3,7 +3,9 @@ import { GridPostList, Loader } from "@/components/shared";
 
 const Saved = () => {
   const { data: currentUser, isLoading: userLoading } = useGetCurrentUser();
-  const { data: savedPosts, isLoading: postsLoading, error } = useGetSavedPosts(currentUser?.$id);
+  const userId = currentUser?.$id || ""; // Handle possible undefined
+
+  const { data: savedPosts, isLoading: postsLoading, error } = useGetSavedPosts(userId);
 
   if (userLoading || postsLoading) {
     return <Loader />;
@@ -16,7 +18,7 @@ const Saved = () => {
   const formattedPosts = savedPosts?.map((savePost) => ({
     ...savePost.post,
     creator: {
-      imageUrl: currentUser.imageUrl,
+      imageUrl: currentUser?.imageUrl || "", // Handle possible undefined
     },
   })).reverse();
 
