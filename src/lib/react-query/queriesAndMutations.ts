@@ -23,10 +23,12 @@ import {
   getRecentPosts,
   getInfinitePosts,
   searchPosts,
-  deleteSavedPost,
   getSavedPosts,
+  savePost,
+  deleteSavedPost,
 } from "@/lib/appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+import { QueryKey } from "@tanstack/react-query";
 
 // ============================================================
 // AUTH QUERIES
@@ -45,13 +47,36 @@ export const useSignInAccount = () => {
   });
 };
 
+
+// Define the type for the mutation parameters
+interface SavePostParams {
+  userId: string;
+  postId: string;
+}
+
+// Mutation for Saving a Post
+export const useSavePost = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ userId, postId }: SavePostParams) => savePost(userId, postId),
+    onSuccess: () => {
+      // Invalidate or refetch queries to keep your UI in sync
+      queryClient.invalidateQueries([QUERY_KEYS.GET_SAVED_POSTS]);
+      queryClient.invalidateQueries([QUERY_KEYS.GET_RECENT_POSTS]);
+    },
+    onError: (error) => {
+      console.error("Error saving post:", error);
+    }
+  });
+};
+
+// Query for Getting Saved Posts
 export const useGetSavedPosts = (userId: string) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_RECENT_POSTS, userId],
-    queryFn: async () => {
-      const savedPosts = await getSavedPosts(userId);
-      return savedPosts;
-    },
+    queryKey: [QUERY_KEYS.GET_SAVED_POSTS, userId],
+    queryFn: () => getSavedPosts(userId),
+    enabled: !!userId,
   });
 };
 
@@ -82,6 +107,8 @@ export const useGetPosts = () => {
     initialPageParam: null,  // Add initialPageParam
   });
 };
+
+
 export const useSearchPosts = (searchTerm: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],
@@ -89,6 +116,7 @@ export const useSearchPosts = (searchTerm: string) => {
     enabled: !!searchTerm,
   });
 };
+
 
 export const useGetRecentPosts = () => {
   return useQuery({

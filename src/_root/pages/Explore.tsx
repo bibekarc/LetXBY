@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
-import { Input } from "@/components/ui/input";
-import useDebounce from "@/hooks/useDebounce";
-import GridPostList from "@/components/shared/GridPostList";
 import Loader from "@/components/shared/Loader";
+import { Input } from "@/components/ui/input";
+import GridPostList from "@/components/shared/GridPostList";
 import { useGetPosts, useSearchPosts } from "@/lib/react-query/queriesAndMutations";
+import useDebounce from "@/hooks/useDebounce";
+import { useInView } from "react-intersection-observer";
 
 export type SearchResultProps = {
   isSearchFetching: boolean;
@@ -46,7 +46,7 @@ const Explore = () => {
 
   const shouldShowSearchResults = searchValue !== "";
   const shouldShowPosts = !shouldShowSearchResults && 
-    posts.pages.every((item) => item.documents.length === 0);
+    posts.pages?.every((item) => item?.documents.length === 0);
 
   return (
     <div className="explore-container">

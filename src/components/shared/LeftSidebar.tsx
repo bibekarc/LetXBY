@@ -26,13 +26,13 @@ const LeftSidebar = () => {
 
   return (
     <nav className="leftsidebar">
-      <div className="flex flex-col gap-11">
-        <Link to="/" className="flex gap-3 items-center">
+      <div className="flex flex-col gap-9">
+        <Link to="/" className="flex gap-1 items-center">
           <img
             src="/assets/images/logo.png"
             alt="logo"
-            width={100}
-            height={36}
+            width={75}
+            height={30}
           />
         </Link>
 
@@ -45,7 +45,7 @@ const LeftSidebar = () => {
             <img
               src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
               alt="profile"
-              className="h-14 w-14 rounded-full"
+              className="h-12 w-12 rounded-full"
             />
             <div className="flex flex-col">
               <p className="body-bold">{user.name}</p>
@@ -54,7 +54,7 @@ const LeftSidebar = () => {
           </Link>
         )}
 
-        <ul className="flex flex-col gap-6">
+        <ul className="flex flex-col gap-3">
           {sidebarLinks.map((link: INavLink) => {
             const isActive = pathname === link.route;
 
@@ -63,10 +63,12 @@ const LeftSidebar = () => {
                 key={link.label}
                 className={`leftsidebar-link group ${
                   isActive && "bg-primary-500"
-                }`}>
+                }`}
+              >
                 <NavLink
                   to={link.route}
-                  className="flex gap-4 items-center p-4">
+                  className="flex gap-4 items-center p-4"
+                >
                   <img
                     src={link.imgURL}
                     alt={link.label}
@@ -85,7 +87,8 @@ const LeftSidebar = () => {
       <Button
         variant="ghost"
         className="shad-button_ghost"
-        onClick={(e) => handleSignOut(e)}>
+        onClick={(e) => handleSignOut(e)}
+      >
         <img src="/assets/icons/logout.svg" alt="logout" />
         <p className="small-medium lg:base-medium">Logout</p>
       </Button>

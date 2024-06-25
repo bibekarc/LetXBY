@@ -398,12 +398,33 @@ export async function likePost(postId: string, likesArray: string[]) {
   }
 }
 
+
+export async function savePost(userId: string, postId: string) {
+  try {
+    const updatedPost = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.savesCollectionId,
+      ID.unique(),
+      {
+        user: userId,
+        post: postId,
+      }
+    );
+
+    if (!updatedPost) throw new Error("Failed to save post");
+
+    return updatedPost;
+  } catch (error) {
+    console.log("Error saving post:", error);
+  }
+}
+
 export async function getSavedPosts(userId: string): Promise<Models.Document[]> {
   try {
     const savedPosts = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.savesCollectionId,
-      [`user=${userId}`] // Assuming you're filtering by user ID
+      [`user=${userId}`]
     );
 
     if (!savedPosts.documents) throw new Error("No saved posts found");
