@@ -1,4 +1,3 @@
-import React from "react";
 import { Models } from "appwrite";
 import GridPostList from "@/components/shared/GridPostList";
 import Loader from "@/components/shared/Loader";
