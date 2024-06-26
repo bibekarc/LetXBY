@@ -27,12 +27,12 @@ const LeftSidebar = () => {
   return (
     <nav className="leftsidebar">
       <div className="flex flex-col gap-9">
-        <Link to="/" className="flex gap-1 items-center">
+        <Link to="/" className="flex gap-1 items-center mx-12">
           <img
             src="/assets/images/logo.png"
             alt="logo"
-            width={75}
-            height={30}
+            width={100}
+            height={36}
           />
         </Link>
 
