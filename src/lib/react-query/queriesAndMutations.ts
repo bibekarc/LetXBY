@@ -3,7 +3,6 @@ import {
   useMutation,
   useQueryClient,
   useInfiniteQuery,
-  QueryClient,
 } from "@tanstack/react-query";
 
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
@@ -25,8 +24,8 @@ import {
   getInfinitePosts,
   searchPosts,
   getSavedPosts,
-  savePost,
   deleteSavedPost,
+  savePost,
 } from "@/lib/appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
 
@@ -47,34 +46,6 @@ export const useSignInAccount = () => {
   });
 };
 
-// Define the type for the mutation parameters
-interface SavePostParams {
-  userId: string;
-  postId: string;
-}
-export const useSavePost = () => {
-  const queryClient: QueryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ userId, postId }: SavePostParams) => savePost(userId, postId),
-    onSuccess: () => {
-      // Invalidate or refetch queries to keep your UI in sync
-      queryClient.invalidateQueries({ queryKey: [...QUERY_KEYS.GET_SAVED_POSTS] });
-    },
-    onError: (error) => {
-      console.error("Error saving post:", error);
-    },
-  });
-};
-
-// Query for Getting Saved Posts
-export const useGetSavedPosts = (userId: string) => {
-  return useQuery({
-    queryKey: [QUERY_KEYS.GET_SAVED_POSTS, userId],
-    queryFn: () => getSavedPosts(userId),
-    enabled: !!userId,
-  });
-};
 
 export const useSignOutAccount = () => {
   return useMutation({
@@ -86,6 +57,37 @@ export const useSignOutAccount = () => {
 // POST QUERIES
 // ============================================================
 
+// const QUERY_KEYS = {
+//   GET_SAVED_POSTS: 'getSavedPosts',
+// };
+
+export const useSavePost = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ userId, postId }: { userId: string; postId: string }) =>
+      savePost(userId, postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_POSTS],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+    },
+  });
+};
+
+
+export const useGetSavedPosts = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_SAVED_POSTS, userId],
+    queryFn: () => getSavedPosts(userId),
+    enabled: !!userId, // Only run the query if userId is available
+  });
+};
 export const useGetPosts = () => {
   return useInfiniteQuery({
     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],

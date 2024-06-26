@@ -419,22 +419,27 @@ export async function savePost(userId: string, postId: string) {
   }
 }
 
+
 export async function getSavedPosts(userId: string): Promise<Models.Document[]> {
   try {
     const savedPosts = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.savesCollectionId,
-      [`user=${userId}`]
+      [Query.equal('user', userId)]
     );
 
-    if (!savedPosts.documents) throw new Error("No saved posts found");
+    if (!savedPosts.documents.length) {
+      console.warn('No saved posts found for user:', userId);
+    }
 
     return savedPosts.documents;
   } catch (error) {
-    console.log("Error fetching saved posts:", error);
-    return [];
+    console.error('Error fetching saved posts:', error);
+    throw new Error('Could not fetch saved posts');
   }
 }
+
+
 
 // ============================== DELETE SAVED POST
 export async function deleteSavedPost(savedRecordId: string) {
@@ -480,7 +485,7 @@ export async function getRecentPosts() {
     const posts = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
-      [Query.orderDesc("$createdAt"), Query.limit(20)]
+      [Query.orderDesc("$createdAt"), Query.limit(10)]
     );
 
     if (!posts) throw new Error("No posts found");

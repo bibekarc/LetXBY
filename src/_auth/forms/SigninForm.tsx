@@ -1,4 +1,5 @@
 import * as z from "zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,16 +7,15 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/shared/Loader";
-import { useToast } from "@/components/ui/use-toast";
 import { useSignInAccount } from "@/lib/react-query/queriesAndMutations";
 import { SigninValidation } from "@/lib/validation";
 import { useUserContext } from "@/context/AuthContext";
 
 const SigninForm = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
   const { mutateAsync: signInAccount, isPending: isSigningInUser } = useSignInAccount();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
@@ -27,10 +27,12 @@ const SigninForm = () => {
 
   const handleSignin = async (user: z.infer<typeof SigninValidation>) => {
     try {
+      setErrorMessage(""); // Clear previous error messages
+
       const session = await signInAccount(user);
 
       if (!session) {
-        toast({ title: "Login failed. Please check your credentials." });
+        setErrorMessage("Login failed. Please check your credentials.");
         return;
       }
 
@@ -40,22 +42,23 @@ const SigninForm = () => {
         form.reset();
         navigate("/");
       } else {
-        toast({ title: "Login failed. Please try again." });
+        setErrorMessage("Login failed. Please try again.");
       }
     } catch (error) {
       console.error("Error during onSubmit:", error);
+      setErrorMessage("Make sure your Email or Password is Correct.");
     }
   };
 
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
-        <img src="/assets/images/name.jpg" className="w-28" alt="logo" />
+        <img src="/assets/images/logo1.png" className="w-32" alt="logo" />
 
-        <h2 className="h3-bold md:h2-bold pt-5 pb-5 sm:pt-12">
+        <h2 className="h3-bold md:h2-bold pt-2 pb-5 sm:pt-2">
           Welcome back!
         </h2>
-        <p className="text-light-3 small-medium md:base-regular mt-2">
+        <p className="text-light-2 small-medium md:base-regular mt-2">
           To use LetXBY, Please enter your details
         </p>
 
@@ -63,6 +66,10 @@ const SigninForm = () => {
           onSubmit={form.handleSubmit(handleSignin)}
           className="flex flex-col gap-1 w-full mt-4 mb-4"
         >
+          {errorMessage && (
+            <p className="flex flex-center text-sm mb-4 text-red">{errorMessage}</p>
+          )}
+
           <FormField
             control={form.control}
             name="email"
