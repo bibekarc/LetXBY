@@ -15,10 +15,12 @@ const Saved = () => {
     return <p className="text-light-4">Error loading saved posts</p>;
   }
 
+  // Map saved posts to format them correctly
   const formattedPosts = savedPosts?.map((savePost) => ({
     ...savePost.post,
     creator: {
-      imageUrl: currentUser?.imageUrl || '', // Handle possible undefined
+      ...savePost.post.creator, // Ensure to include the original creator's details
+      imageUrl: savePost.post.creator?.imageUrl || '', // Use original creator's imageUrl
     },
   })).reverse();
 
