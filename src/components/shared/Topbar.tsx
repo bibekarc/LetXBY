@@ -6,7 +6,6 @@ import { useEffect } from "react";
 
 const Topbar = () => {
   const navigate = useNavigate();
-  const { user } = useUserContext();
   const { mutate: signOut, isSuccess } = useSignOutAccount();
 
   useEffect(() => {
