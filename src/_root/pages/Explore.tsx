@@ -6,6 +6,7 @@ import { useGetPosts, useSearchPosts } from "@/lib/react-query/queriesAndMutatio
 import useDebounce from "@/hooks/useDebounce";
 import { useInView } from "react-intersection-observer";
 
+
 export type SearchResultProps = {
   isSearchFetching: boolean;
   searchedPosts: any;

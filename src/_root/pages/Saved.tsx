@@ -1,6 +1,7 @@
 import { useGetSavedPosts, useGetCurrentUser } from '@/lib/react-query/queriesAndMutations';
 import { GridPostList, Loader } from '@/components/shared';
 
+
 const Saved = () => {
   const { data: currentUser, isLoading: userLoading } = useGetCurrentUser();
   const userId = currentUser?.$id || ''; // Handle possible undefined

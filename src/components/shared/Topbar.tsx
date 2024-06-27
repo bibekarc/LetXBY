@@ -24,9 +24,9 @@ const Topbar = () => {
         </Link>
 
         <div className="flex gap-4">
-          <Link to="/create-post" className="flex-center gap-3">
+          <Link to="/community" className="flex-center gap-3">
             <img
-              src="/assets/icons/createpost.svg"
+              src="/assets/icons/communitymb.svg"
               alt="create post"
               className="h-8 w-8"
             />

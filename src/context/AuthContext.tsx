@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { createContext, useContext, useEffect, useState } from "react";
-
 import { IUser } from "@/types";
 import { getCurrentUser } from "@/lib/appwrite/api";
+import React from "react";
+import { useSignOutAccount } from "@/lib/react-query/queriesAndMutations";
+
 
 export const INITIAL_USER = {
   id: "",
@@ -79,6 +81,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     checkAuthUser();
   }, []);
 
+  const { mutate: signOut } = useSignOutAccount();
+
+  const handleSignOut = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    signOut();
+    setIsAuthenticated(false);
+    setUser(INITIAL_USER);
+    navigate("/sign-in");
+  };
+
+
   const value = {
     user,
     setUser,
@@ -86,9 +101,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isAuthenticated,
     setIsAuthenticated,
     checkAuthUser,
+    handleSignOut,
   };
 
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
+
+};
+
 
 export const useUserContext = () => useContext(AuthContext);

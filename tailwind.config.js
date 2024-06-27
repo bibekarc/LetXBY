@@ -1,4 +1,7 @@
+import { nextui } from "@nextui-org/react";
+
  export default {
+
   darkMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
@@ -14,6 +17,7 @@
         '2xl': '1400px',
       
       },
+      extend: {},
     },
     extend: {
       colors: {
@@ -59,5 +63,5 @@
       },
     },
   },
-  plugins: [import('tailwindcss-animate')],
+  plugins: [nextui()]
 };
