@@ -54,7 +54,7 @@ import {
   <ModalContent>
     {(onClose) => (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="bg-sky-800 rounded-lg shadow-lg p-6 max-w-md mx-auto">
+        <div className="bg-teal-600 rounded-lg shadow-lg p-6 max-w-md mx-auto">
           <ModalHeader className="flex flex-col gap-1 text-2xl font-bold">
             Create Community
           </ModalHeader>
@@ -63,7 +63,7 @@ import {
               placeholder="Name"
               type="text"
               onChange={(e) => setName(e.target.value)}
-              className="bg-gray-900 rounded-xl"
+              className="bg-dark-4 rounded-xl"
             />
           </ModalBody>
           <ModalFooter>
