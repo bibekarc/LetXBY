@@ -28,7 +28,7 @@ import {
       databases
         .createDocument(
             appwriteConfig.databaseId, 
-            appwriteConfig.CommunitiesId, 
+            appwriteConfig.CommunitiesId,
             ID.unique(), {
             name: name,
         })
