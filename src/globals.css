@@ -358,3 +358,27 @@
 .bg-purple {
   background-color: rgb(215, 0, 54);
 }
+
+
+/* ChatSection.css */
+
+.chat-page {
+  width: 120%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  body {
+    overflow: hidden;
+  }
+
+  .common-container {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .chat-container {
+    height: 100vh;
+  }
+}
