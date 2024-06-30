@@ -9,10 +9,10 @@ const RootLayout = () => {
 
   return (
     <div className="w-full md:flex">
-      <Topbar />
+      {!isChatPage && <Topbar />} {/* Disable Topbar on the chat page */}
       <LeftSidebar />
 
-      <section className="flex flex-1 h-full">
+      <section className="flex flex-1 h-full "> {/* Add bottom padding */}
         <Outlet />
       </section>
 

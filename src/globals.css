@@ -109,21 +109,21 @@
   }
 
   .common-container {
-    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
+    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar pb-48;
   }
 
   /* All Users */
   .user-container {
-    @apply max-w-5xl flex flex-col items-start w-full gap-6 md:gap-9;
+    @apply max-w-5xl flex flex-col items-start w-full gap-6 md:gap-9 pb-48;
   }
 
   .user-grid {
-    @apply w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl;
+    @apply w-full grid grid-cols-1 xs:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl pb-48;
   }
 
   /* Explore */
   .explore-container {
-    @apply flex flex-col flex-1 items-center overflow-scroll py-10 px-5 md:p-14 custom-scrollbar;
+    @apply flex flex-col flex-1 items-center overflow-scroll py-10 px-5 md:p-14 custom-scrollbar pb-48;
   }
 
   .explore-inner_container {
@@ -136,7 +136,7 @@
 
   /* Home */
   .home-container {
-    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar;
+    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:px-8 lg:p-14 custom-scrollbar pb-48;
   }
 
   .home-posts {
@@ -178,17 +178,17 @@
   }
 
   .profile-tab {
-    @apply flex-center gap-3 py-4 w-48 bg-dark-2  transition flex-1 xl:flex-initial;
+    @apply flex-center gap-3 py-4 w-48 bg-dark-2  transition flex-1 xl:flex-initial ;
   }
 
   /* Saved */
   .saved-container {
-    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar;
+    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar pb-48;
   }
 
   /* Bottom bar */
   .bottom-bar {
-    @apply z-50 flex-between w-full sticky bottom-0 rounded-t-[20px] bg-dark-2 px-5 py-4 md:hidden;
+    @apply z-50 flex-between w-full fixed bottom-0 rounded-t-[20px] bg-dark-2 px-5 py-4 md:hidden;
   }
 
   /* File uploader */
@@ -206,7 +206,7 @@
 
   /* Grid Post List */
   .grid-container {
-    @apply w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl;
+    @apply w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-7 max-w-5xl pb-48;
   }
 
   .grid-post_link {
@@ -373,7 +373,7 @@
     overflow: hidden;
   }
 
-  .common-container {
+  .common-contain {
     height: 100vh;
     overflow: hidden;
   }
