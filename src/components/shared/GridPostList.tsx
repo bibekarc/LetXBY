@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { PostStats } from "@/components/shared";
 import { useUserContext } from "@/context/AuthContext";
 
+
 type GridPostListProps = {
   posts: Models.Document[];
   showUser?: boolean;
@@ -24,12 +25,12 @@ const GridPostList = ({
             <img
               src={post.imageUrl}
               alt="post"
-              className="h-full w-full object-cover opacity-60"
+              className="h-full w-full object-cover "
             />
           </Link>
 
           <div className="grid-post_user">
-            {showUser && (
+            {showUser && post.creator && ( 
               <div className="flex items-center justify-start gap-2 flex-1">
                 <img
                   src={
@@ -42,7 +43,7 @@ const GridPostList = ({
                 <p className="line-clamp-1">{post.creator.name}</p>
               </div>
             )}
-            {showStats && <PostStats post={post} userId={user.id} />}
+            {showStats && <PostStats post={post} userId={user.id}  />}
           </div>
         </li>
       ))}

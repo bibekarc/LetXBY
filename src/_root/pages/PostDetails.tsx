@@ -95,22 +95,22 @@ const PostDetails = () => {
                   <img
                     src={"/assets/icons/edit.svg"}
                     alt="edit"
-                    width={24}
-                    height={24}
+                    width={20}
+                    height={20}
                   />
                 </Link>
 
                 <Button
                   onClick={handleDeletePost}
                   variant="ghost"
-                  className={`ost_details-delete_btn ${
+                  className={`post_details-delete_btn ${
                     user.id !== post?.creator.$id && "hidden"
                   }`}>
                   <img
                     src={"/assets/icons/delete.svg"}
                     alt="delete"
-                    width={24}
-                    height={24}
+                    width={20}
+                    height={20}
                   />
                 </Button>
               </div>

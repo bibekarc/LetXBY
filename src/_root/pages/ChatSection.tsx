@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button, Input, Spinner } from "@nextui-org/react";
-import { appwriteConfig } from "@/lib/appwrite/config";
-import { databases } from "@/lib/appwrite/config";
-import { client } from "@/lib/appwrite/config";
-import { AppwriteException, ID, Models } from "appwrite";
+import { appwriteConfig, databases, client } from "@/lib/appwrite/config";
+import { AppwriteException, ID, Models, Query } from "appwrite";
 import { userStore } from "@/state/userStore";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { chatStore } from "@/state/chatsStore";
 
-
 export default function ChatSection() {
-  const { id } = useParams();
+  const { id } = useParams(); // community ID
   const [message, setMessage] = useState("");
   const user = userStore((state) => state.user) as Models.User<Models.Preferences>;
   const [loading, setLoading] = useState(false);
@@ -19,14 +16,22 @@ export default function ChatSection() {
   const chatState = chatStore();
 
   useEffect(() => {
-    if (!isFetched.current) {
+    if (id) {
+      // Reset chats when community ID changes
+      chatState.addChats([]);
+
+      // Fetch messages for the current community
       fetchMessage();
 
-      client.subscribe(
+      // Subscribe to real-time updates
+      const unsubscribe = client.subscribe(
         `databases.${appwriteConfig.databaseId}.collections.${appwriteConfig.ChatId}.documents`,
         (response) => {
-          console.log("Realtime response:", response);
           const payload = response.payload as Models.Document;
+
+          if (payload["community_id"] !== id) {
+            return; // Ignore messages that do not belong to the current community
+          }
 
           if (response.events.includes("databases.*.collections.*.documents.*.create")) {
             if (user.$id !== payload["user_id"]) {
@@ -39,47 +44,58 @@ export default function ChatSection() {
       );
 
       isFetched.current = true;
+
+      // Cleanup subscription on component unmount or ID change
+      return () => {
+        unsubscribe();
+      };
     }
-  }, []);
+  }, [id]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    databases
-      .createDocument(appwriteConfig.databaseId, appwriteConfig.ChatId, ID.unique(), {
-        message: message,
-        user_id: user.$id,
-        community_id: id,
-        name: user.name,
-      })
-      .then((res) => {
-        chatState.addChat(res);
-        setMessage("");
-      })
-      .catch((err: AppwriteException) => {
-        toast.error(err.message, { theme: "colored" });
-      });
+    if (id) {
+      databases
+        .createDocument(appwriteConfig.databaseId, appwriteConfig.ChatId, ID.unique(), {
+          message: message,
+          user_id: user.$id,
+          community_id: id,
+          name: user.name,
+        })
+        .then((res) => {
+          chatState.addChat(res);
+          setMessage("");
+        })
+        .catch((err: AppwriteException) => {
+          toast.error(err.message, { theme: "colored" });
+        });
+    }
   };
 
   const fetchMessage = () => {
-    setLoading(true);
-    databases
-      .listDocuments(appwriteConfig.databaseId, appwriteConfig.ChatId)
-      .then((res) => {
-        setLoading(false);
-        chatState.addChats(res.documents);
-      })
-      .catch((err: AppwriteException) => {
-        setLoading(false);
-        toast.error(err.message);
-      });
+    if (id) {
+      setLoading(true);
+      databases
+        .listDocuments(appwriteConfig.databaseId, appwriteConfig.ChatId, [
+          Query.equal('community_id', id)
+        ])
+        .then((res) => {
+          setLoading(false);
+          chatState.addChats(res.documents); // use addChats to reset the state with the fetched messages
+        })
+        .catch((err: AppwriteException) => {
+          setLoading(false);
+          toast.error(err.message);
+        });
+    }
   };
 
-  const deleteMessage = (id: string) => {
+  const deleteMessage = (messageId: string) => {
     databases
-      .deleteDocument(appwriteConfig.databaseId, appwriteConfig.ChatId, id)
+      .deleteDocument(appwriteConfig.databaseId, appwriteConfig.ChatId, messageId)
       .then(() => {
-        chatState.deleteChat(id);
+        chatState.deleteChat(messageId);
       })
       .catch((err: AppwriteException) => {
         toast.error(err.message, { theme: "colored" });
@@ -136,7 +152,6 @@ export default function ChatSection() {
                 </div>
               ))}
             </div>
-
             {/* Input Box */}
             <div className="p-4 bg-transparent z-10">
               <form onSubmit={handleSubmit} className="flex items-center space-x-2">

@@ -602,3 +602,22 @@ export async function updateUser(user: IUpdateUser) {
   }
 }
 
+
+
+// Comment Section
+
+// Function to fetch comments from Appwrite
+export const getComments = async () => {
+  try {
+    const { documents } = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.commentsCollectionId,
+      []
+    );
+    return documents;
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    throw error;
+  }
+};
+

@@ -5,6 +5,7 @@ import PostCard from "@/components/shared/PostCard";
 import UserCard from "@/components/shared/UserCard";
 import { useGetRecentPosts, useGetUsers } from "@/lib/react-query/queriesAndMutations";
 
+
 const Home = () => {
   // const { toast } = useToast();
 
@@ -17,7 +18,7 @@ const Home = () => {
     data: creators,
     isLoading: isUserLoading,
     isError: isErrorCreators,
-  } = useGetUsers(10);
+  } = useGetUsers();
 
   if (isErrorPosts || isErrorCreators) {
     return (
