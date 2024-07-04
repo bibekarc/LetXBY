@@ -22,8 +22,5 @@ export default function AuthLayout() {
         </>
       )}
     </>
-  )
+  );
 }
-
-
-

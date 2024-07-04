@@ -35,10 +35,14 @@ function Community() {
         <div className="w-full flex items-center justify-between flex-wrap">
           <h1 className="text-5xl font-semibold">Communities</h1>
           <div className="mt-4 sm:mt-0 flex-grow flex justify-end">
-            <div className="hidden sm:block"> {/* Hidden on small screens */}
+            <div className="hidden sm:block">
+              {" "}
+              {/* Hidden on small screens */}
               <CreateCommunity />
             </div>
-            <div className="sm:hidden"> {/* Shown only on small screens */}
+            <div className="sm:hidden">
+              {" "}
+              {/* Shown only on small screens */}
               <CreateCommunity />
             </div>
           </div>

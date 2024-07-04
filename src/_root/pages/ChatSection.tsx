@@ -10,7 +10,9 @@ import { chatStore } from "@/state/chatsStore";
 export default function ChatSection() {
   const { id } = useParams(); // community ID
   const [message, setMessage] = useState("");
-  const user = userStore((state) => state.user) as Models.User<Models.Preferences>;
+  const user = userStore(
+    (state) => state.user
+  ) as Models.User<Models.Preferences>;
   const [loading, setLoading] = useState(false);
   const isFetched = useRef(false);
   const chatState = chatStore();
@@ -33,11 +35,19 @@ export default function ChatSection() {
             return; // Ignore messages that do not belong to the current community
           }
 
-          if (response.events.includes("databases.*.collections.*.documents.*.create")) {
+          if (
+            response.events.includes(
+              "databases.*.collections.*.documents.*.create"
+            )
+          ) {
             if (user.$id !== payload["user_id"]) {
               chatState.addChat(payload);
             }
-          } else if (response.events.includes("databases.*.collections.*.documents.*.delete")) {
+          } else if (
+            response.events.includes(
+              "databases.*.collections.*.documents.*.delete"
+            )
+          ) {
             chatState.deleteChat(payload.$id);
           }
         }
@@ -57,12 +67,17 @@ export default function ChatSection() {
 
     if (id) {
       databases
-        .createDocument(appwriteConfig.databaseId, appwriteConfig.ChatId, ID.unique(), {
-          message: message,
-          user_id: user.$id,
-          community_id: id,
-          name: user.name,
-        })
+        .createDocument(
+          appwriteConfig.databaseId,
+          appwriteConfig.ChatId,
+          ID.unique(),
+          {
+            message: message,
+            user_id: user.$id,
+            community_id: id,
+            name: user.name,
+          }
+        )
         .then((res) => {
           chatState.addChat(res);
           setMessage("");
@@ -78,7 +93,7 @@ export default function ChatSection() {
       setLoading(true);
       databases
         .listDocuments(appwriteConfig.databaseId, appwriteConfig.ChatId, [
-          Query.equal('community_id', id)
+          Query.equal("community_id", id),
         ])
         .then((res) => {
           setLoading(false);
@@ -93,7 +108,11 @@ export default function ChatSection() {
 
   const deleteMessage = (messageId: string) => {
     databases
-      .deleteDocument(appwriteConfig.databaseId, appwriteConfig.ChatId, messageId)
+      .deleteDocument(
+        appwriteConfig.databaseId,
+        appwriteConfig.ChatId,
+        messageId
+      )
       .then(() => {
         chatState.deleteChat(messageId);
       })
@@ -107,7 +126,11 @@ export default function ChatSection() {
       <div className="common-container w-full md:w-3/4 mx-auto p-4 flex">
         <div className="chat-container relative w-full md:w-11/12 rounded-xl overflow-hidden border border-dark-4 min-h-screen">
           <Link to={`/community`} className="relative z-50">
-            <img src={"/assets/icons/larrow.png"} alt="profile" className="h-10 w-10" />
+            <img
+              src={"/assets/icons/larrow.png"}
+              alt="profile"
+              className="h-10 w-10"
+            />
           </Link>
           <div className="absolute inset-0 flex justify-center items-center z-0">
             <div className="bg-shape1 bg-teal z-10"></div>
@@ -119,10 +142,25 @@ export default function ChatSection() {
           </div>
           <div className="flex flex-col h-full relative z-10">
             {/* Display all messages */}
-            <div className="flex-1 p-4 overflow-y-auto scrollbar-hide" style={{ maxHeight: 'calc(100vh - 220px)', minHeight: 'calc(100vh - 220px)' }}>
+            <div
+              className="flex-1 p-4 overflow-y-auto scrollbar-hide"
+              style={{
+                maxHeight: "calc(100vh - 220px)",
+                minHeight: "calc(100vh - 220px)",
+              }}
+            >
               {chatState.chats.map((item) => (
-                <div key={item.$id} className={`flex justify-${item["user_id"] === user.$id ? 'end' : 'start'} mb-2`}>
-                  <div className={`bg-${item["user_id"] === user.$id ? 'green-400' : 'purple-400'} px-4 py-2 max-w-lg rounded-xl shadow-md`}>
+                <div
+                  key={item.$id}
+                  className={`flex justify-${
+                    item["user_id"] === user.$id ? "end" : "start"
+                  } mb-2`}
+                >
+                  <div
+                    className={`bg-${
+                      item["user_id"] === user.$id ? "green-400" : "purple-400"
+                    } px-4 py-2 max-w-lg rounded-xl shadow-md`}
+                  >
                     <h1 className="font-bold">{item["name"]}</h1>
                     <h1>{item["message"]}</h1>
                     {item["user_id"] === user.$id && (
@@ -154,7 +192,10 @@ export default function ChatSection() {
             </div>
             {/* Input Box */}
             <div className="p-4 bg-transparent z-10">
-              <form onSubmit={handleSubmit} className="flex items-center space-x-2">
+              <form
+                onSubmit={handleSubmit}
+                className="flex items-center space-x-2"
+              >
                 <Input
                   type="text"
                   placeholder="Type message..."
@@ -162,7 +203,13 @@ export default function ChatSection() {
                   value={message}
                   className="flex-grow bg-transparent"
                 />
-                <Button color="primary" type="submit" className="rounded bg-dark-4">Send</Button>
+                <Button
+                  color="primary"
+                  type="submit"
+                  className="rounded bg-dark-4"
+                >
+                  Send
+                </Button>
               </form>
             </div>
           </div>

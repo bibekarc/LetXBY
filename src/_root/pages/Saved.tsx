@@ -1,12 +1,18 @@
-import { useGetSavedPosts, useGetCurrentUser } from '@/lib/react-query/queriesAndMutations';
-import { GridPostList, Loader } from '@/components/shared';
-
+import {
+  useGetSavedPosts,
+  useGetCurrentUser,
+} from "@/lib/react-query/queriesAndMutations";
+import { GridPostList, Loader } from "@/components/shared";
 
 const Saved = () => {
   const { data: currentUser, isLoading: userLoading } = useGetCurrentUser();
-  const userId = currentUser?.$id || ''; // Handle possible undefined
+  const userId = currentUser?.$id || ""; // Handle possible undefined
 
-  const { data: savedPosts, isLoading: postsLoading, error } = useGetSavedPosts(userId);
+  const {
+    data: savedPosts,
+    isLoading: postsLoading,
+    error,
+  } = useGetSavedPosts(userId);
 
   if (userLoading || postsLoading) {
     return <Loader />;
@@ -17,13 +23,15 @@ const Saved = () => {
   }
 
   // Map saved posts to format them correctly
-  const formattedPosts = savedPosts?.map((savePost) => ({
-    ...savePost.post,
-    creator: {
-      ...savePost.post.creator, // Ensure to include the original creator's details
-      imageUrl: savePost.post.creator?.imageUrl || '', // Use original creator's imageUrl
-    },
-  })).reverse();
+  const formattedPosts = savedPosts
+    ?.map((savePost) => ({
+      ...savePost.post,
+      creator: {
+        ...savePost.post.creator, // Ensure to include the original creator's details
+        imageUrl: savePost.post.creator?.imageUrl || "", // Use original creator's imageUrl
+      },
+    }))
+    .reverse();
 
   return (
     <div className="saved-container">

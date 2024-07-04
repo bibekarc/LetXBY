@@ -3,7 +3,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/shared/Loader";
@@ -14,7 +21,8 @@ import { useUserContext } from "@/context/AuthContext";
 const SigninForm = () => {
   const navigate = useNavigate();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
-  const { mutateAsync: signInAccount, isPending: isSigningInUser } = useSignInAccount();
+  const { mutateAsync: signInAccount, isPending: isSigningInUser } =
+    useSignInAccount();
   const [errorMessage, setErrorMessage] = useState("");
 
   const form = useForm<z.infer<typeof SigninValidation>>({
@@ -55,9 +63,7 @@ const SigninForm = () => {
       <div className="sm:w-420 flex-center flex-col">
         <img src="/assets/images/logo1.png" className="w-32" alt="logo" />
 
-        <h2 className="h3-bold md:h2-bold pt-2 pb-5 sm:pt-2">
-          Welcome back!
-        </h2>
+        <h2 className="h3-bold md:h2-bold pt-2 pb-5 sm:pt-2">Welcome back!</h2>
         <p className="text-light-2 small-medium md:base-regular mt-2">
           To use LetXBY, Please enter your details
         </p>
@@ -67,7 +73,9 @@ const SigninForm = () => {
           className="flex flex-col gap-1 w-full mt-4 mb-4"
         >
           {errorMessage && (
-            <p className="flex flex-center text-sm mb-4 text-red">{errorMessage}</p>
+            <p className="flex flex-center text-sm mb-4 text-red">
+              {errorMessage}
+            </p>
           )}
 
           <FormField
