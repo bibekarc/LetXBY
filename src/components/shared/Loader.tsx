@@ -1,12 +1,15 @@
+import { ProgressBar } from "react-loader-spinner";
 
 const Loader = () => (
   <div className="flex-center w-full">
-    <img
-      src="/assets/icons/loader.svg"
-      alt="loader"
-      width={24}
-      height={24}
-      className="animate-spin"
+    <ProgressBar
+      visible={true}
+      height="80"
+      width="80"
+      color="#4fa94d"
+      ariaLabel="progress-bar-loading"
+      wrapperStyle={{}}
+      wrapperClass=""
     />
   </div>
 );

@@ -74,6 +74,16 @@ const SignupForm = () => {
     }
   };
 
+  const googleAuth = (e) => {
+    e.preventDefault();
+
+    account.createOAuth2Session(
+      "google",
+      "https://letxby.vercel.app",
+      "https://letxby.vercel.app/sign-in"
+    );
+  };
+
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
@@ -154,6 +164,14 @@ const SignupForm = () => {
             ) : (
               "Sign Up"
             )}
+          </Button>
+
+          <p className="flex justify-center">OR</p>
+          <Button
+            className="google-button_primary  "
+            onClick={(e) => googleAuth(e)}
+          >
+            Google
           </Button>
 
           <p className="text-small-regular text-light-2 text-center mt-2">

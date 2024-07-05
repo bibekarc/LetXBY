@@ -178,7 +178,7 @@
   }
 
   .profile-tab {
-    @apply flex-center gap-3 py-4 w-48 bg-dark-2  transition flex-1 xl:flex-initial ;
+    @apply flex-center gap-3 py-4 w-48 bg-dark-2  transition flex-1 xl:flex-initial;
   }
 
   /* Saved */
@@ -267,7 +267,11 @@
 
   /* Button */
   .shad-button_primary {
-    @apply bg-primary-500 hover:bg-primary-500 text-light-1 flex gap-2 !important;
+    @apply bg-primary-600 hover:bg-primary-500 text-light-1 flex gap-2 mt-4 !important;
+  }
+
+  .google-button-primary {
+    @apply bg-white hover:bg-primary-600 text-light-1 flex gap-2 !important;
   }
 
   .shad-button_dark_4 {
@@ -294,19 +298,49 @@
 }
 
 @keyframes one {
-  0% { left: 0px; top: 0px; }
-  25% { left: -100px; top: 70px; }
-  50% { left: 20px; top: 150px; }
-  75% { left: 50px; top: 100px; }
-  100% { left: 0px; top: 0px; }
+  0% {
+    left: 0px;
+    top: 0px;
+  }
+  25% {
+    left: -100px;
+    top: 70px;
+  }
+  50% {
+    left: 20px;
+    top: 150px;
+  }
+  75% {
+    left: 50px;
+    top: 100px;
+  }
+  100% {
+    left: 0px;
+    top: 0px;
+  }
 }
 
 @keyframes two {
-  0% { left: 0px; top: 0px; }
-  25% { left: 50px; top: 10px; }
-  50% { left: 100px; top: 50px; }
-  75% { left: 50px; top: 100px; }
-  100% { left: 0px; top: 0px; }
+  0% {
+    left: 0px;
+    top: 0px;
+  }
+  25% {
+    left: 50px;
+    top: 10px;
+  }
+  50% {
+    left: 100px;
+    top: 50px;
+  }
+  75% {
+    left: 50px;
+    top: 100px;
+  }
+  100% {
+    left: 0px;
+    top: 0px;
+  }
 }
 
 .chat-container {
@@ -328,7 +362,8 @@
   justify-content: center;
 }
 
-.bg-shape1, .bg-shape2 {
+.bg-shape1,
+.bg-shape2 {
   position: absolute;
   border-radius: 9999px;
   opacity: 0.5;
@@ -358,7 +393,6 @@
 .bg-purple {
   background-color: rgb(215, 0, 54);
 }
-
 
 /* ChatSection.css */
 
@@ -482,4 +516,3 @@
 .replies {
   margin-top: 20px;
 }
-

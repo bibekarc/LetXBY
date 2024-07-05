@@ -17,6 +17,7 @@ import Loader from "@/components/shared/Loader";
 import { useSignInAccount } from "@/lib/react-query/queriesAndMutations";
 import { SigninValidation } from "@/lib/validation";
 import { useUserContext } from "@/context/AuthContext";
+import { account } from "@/lib/appwrite/config";
 
 const SigninForm = () => {
   const navigate = useNavigate();
@@ -56,6 +57,16 @@ const SigninForm = () => {
       console.error("Error during onSubmit:", error);
       setErrorMessage("Make sure your Email or Password is Correct.");
     }
+  };
+
+  const googleAuth = (e) => {
+    e.preventDefault();
+
+    account.createOAuth2Session(
+      "google",
+      "https://letxby.vercel.app",
+      "https://letxby.vercel.app/sign-in"
+    );
   };
 
   return (
@@ -115,8 +126,16 @@ const SigninForm = () => {
               "Sign In"
             )}
           </Button>
+          <p className="flex justify-center">OR</p>
 
-          <p className="text-small-regular text-light-2 text-center mt-2">
+          <Button
+            className="google-button_primary  "
+            onClick={(e) => googleAuth(e)}
+          >
+            Google
+          </Button>
+
+          <p className="text-small-regular text-light-2 text-center mt-2 ">
             Don't have an account?
             <Link
               to="/sign-up"

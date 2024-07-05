@@ -12,13 +12,16 @@ const LikedPosts = () => {
       </div>
     );
 
+  // Reverse the order of liked posts
+  const reversedLikedPosts = [...currentUser.liked].reverse();
+
   return (
     <>
-      {currentUser.liked.length === 0 && (
+      {reversedLikedPosts.length === 0 && (
         <p className="text-light-4">No liked posts</p>
       )}
 
-      <GridPostList posts={currentUser.liked} showStats={false} />
+      <GridPostList posts={reversedLikedPosts} showStats={false} />
     </>
   );
 };
