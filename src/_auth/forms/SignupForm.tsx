@@ -20,6 +20,8 @@ import {
 } from "@/lib/react-query/queriesAndMutations";
 import { SignupValidation } from "@/lib/validation";
 import { useUserContext } from "@/context/AuthContext";
+import { account } from "@/lib/appwrite/config";
+import { OAuthProvider } from "appwrite";
 
 const SignupForm = () => {
   const { toast } = useToast();
@@ -74,11 +76,9 @@ const SignupForm = () => {
     }
   };
 
-  const googleAuth = (e) => {
-    e.preventDefault();
-
+  const googleAuth = () => {
     account.createOAuth2Session(
-      "google",
+      OAuthProvider.Google,
       "https://letxby.vercel.app",
       "https://letxby.vercel.app/sign-in"
     );
@@ -169,7 +169,7 @@ const SignupForm = () => {
           <p className="flex justify-center">OR</p>
           <Button
             className="google-button_primary  "
-            onClick={(e) => googleAuth(e)}
+            onClick={() => googleAuth()}
           >
             Google
           </Button>

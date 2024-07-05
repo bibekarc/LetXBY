@@ -18,6 +18,7 @@ import { useSignInAccount } from "@/lib/react-query/queriesAndMutations";
 import { SigninValidation } from "@/lib/validation";
 import { useUserContext } from "@/context/AuthContext";
 import { account } from "@/lib/appwrite/config";
+import { OAuthProvider } from "appwrite";
 
 const SigninForm = () => {
   const navigate = useNavigate();
@@ -59,11 +60,9 @@ const SigninForm = () => {
     }
   };
 
-  const googleAuth = (e) => {
-    e.preventDefault();
-
+  const googleAuth = () => {
     account.createOAuth2Session(
-      "google",
+      OAuthProvider.Google,
       "https://letxby.vercel.app",
       "https://letxby.vercel.app/sign-in"
     );
@@ -130,7 +129,7 @@ const SigninForm = () => {
 
           <Button
             className="google-button_primary  "
-            onClick={(e) => googleAuth(e)}
+            onClick={() => googleAuth()}
           >
             Google
           </Button>
