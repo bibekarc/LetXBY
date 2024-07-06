@@ -19,6 +19,7 @@ import { SigninValidation } from "@/lib/validation";
 import { useUserContext } from "@/context/AuthContext";
 import { account } from "@/lib/appwrite/config";
 import { OAuthProvider } from "appwrite";
+import React from "react";
 
 const SigninForm = () => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const SigninForm = () => {
     }
   };
 
-  const googleAuth = (e) => {
+  const googleAuth = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
     account.createOAuth2Session(
@@ -69,7 +70,6 @@ const SigninForm = () => {
       "https://letxby.vercel.app/sign-in"
     );
   };
-
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">

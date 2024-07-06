@@ -135,7 +135,7 @@ export default function ChatSection() {
     <div className="chat-page">
       <div className="common-container w-full md:w-3/4 mx-auto p-4 flex">
         <div className="chat-container relative w-full md:w-11/12 rounded-xl overflow-hidden border border-dark-4 min-h-screen">
-          <div className=" flex justify-evenly">
+          <div className=" flex justify-around">
             <div>
               <h1>{currentCommunity.name}</h1>
             </div>

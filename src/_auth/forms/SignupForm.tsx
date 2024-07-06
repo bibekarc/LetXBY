@@ -22,6 +22,7 @@ import { SignupValidation } from "@/lib/validation";
 import { useUserContext } from "@/context/AuthContext";
 import { account } from "@/lib/appwrite/config";
 import { OAuthProvider } from "appwrite";
+import React from "react";
 
 const SignupForm = () => {
   const { toast } = useToast();
@@ -76,8 +77,7 @@ const SignupForm = () => {
     }
   };
 
-
-  const googleAuth = (e) => {
+  const googleAuth: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
 
     account.createOAuth2Session(
@@ -86,8 +86,6 @@ const SignupForm = () => {
       "https://letxby.vercel.app/sign-in"
     );
   };
-
-
   return (
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
@@ -117,7 +115,6 @@ const SignupForm = () => {
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="username"
@@ -131,7 +128,6 @@ const SignupForm = () => {
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="email"
@@ -145,7 +141,6 @@ const SignupForm = () => {
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="password"
@@ -159,7 +154,6 @@ const SignupForm = () => {
               </FormItem>
             )}
           />
-
           <Button type="submit" className="shad-button_primary">
             {isCreatingAccount || isSigningInUser || isUserLoading ? (
               <div className="flex-center gap-2">
@@ -169,15 +163,14 @@ const SignupForm = () => {
               "Sign Up"
             )}
           </Button>
-
           <p className="flex justify-center">OR</p>
           <Button
-            className="google-button_primary  "
-            onClick={(e) => googleAuth(e)}
+            className="google-button_primary"
+            onClick={googleAuth} // Use the function directly here
           >
             Google
           </Button>
-
+          ;
           <p className="text-small-regular text-light-2 text-center mt-2">
             Already have an account?
             <Link
