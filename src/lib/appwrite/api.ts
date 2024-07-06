@@ -15,7 +15,6 @@ import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "@/types";
 
 // ============================== SIGN UP
 
-
 // Function to create a new user account
 export async function createUserAccount(user: INewUser) {
   try {
@@ -75,12 +74,11 @@ async function saveUserToDB(user: {
   }
 }
 
-
 // ============================== SIGN IN
 export async function signInAccount(user: { email: string; password: string }) {
   try {
     const session = await account.createEmailPasswordSession(
-      user.email, 
+      user.email,
       user.password
     );
     return session;
@@ -95,7 +93,7 @@ export async function getAccount() {
     const currentAccount = await account.get();
     return currentAccount;
   } catch (error) {
-    console.error("Error fetching account:", error); 
+    console.error("Error fetching account:", error);
     throw error;
   }
 }
@@ -113,7 +111,8 @@ export async function getCurrentUser() {
       [Query.equal("accountId", currentAccount.$id)]
     );
 
-    if (!currentUser || !currentUser.documents[0]) throw new Error("User not found");
+    if (!currentUser || !currentUser.documents[0])
+      throw new Error("User not found");
 
     return currentUser.documents[0];
   } catch (error) {
@@ -398,7 +397,6 @@ export async function likePost(postId: string, likesArray: string[]) {
   }
 }
 
-
 export async function savePost(userId: string, postId: string) {
   try {
     const updatedPost = await databases.createDocument(
@@ -419,27 +417,26 @@ export async function savePost(userId: string, postId: string) {
   }
 }
 
-
-export async function getSavedPosts(userId: string): Promise<Models.Document[]> {
+export async function getSavedPosts(
+  userId: string
+): Promise<Models.Document[]> {
   try {
     const savedPosts = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.savesCollectionId,
-      [Query.equal('user', userId)]
+      [Query.equal("user", userId)]
     );
 
     if (!savedPosts.documents.length) {
-      console.warn('No saved posts found for user:', userId);
+      console.warn("No saved posts found for user:", userId);
     }
 
     return savedPosts.documents;
   } catch (error) {
-    console.error('Error fetching saved posts:', error);
-    throw new Error('Could not fetch saved posts');
+    console.error("Error fetching saved posts:", error);
+    throw new Error("Could not fetch saved posts");
   }
 }
-
-
 
 // ============================== DELETE SAVED POST
 export async function deleteSavedPost(savedRecordId: string) {
@@ -602,8 +599,6 @@ export async function updateUser(user: IUpdateUser) {
   }
 }
 
-
-
 // Comment Section
 
 // Function to fetch comments from Appwrite
@@ -621,3 +616,20 @@ export const getComments = async () => {
   }
 };
 
+// ============================== GET USER BY ID
+export async function getCommunityById(communityId: string) {
+  try {
+    const user = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.CommunitiesId,
+      communityId
+    );
+
+    if (!user) throw new Error("Community not found");
+
+    return user;
+  } catch (error) {
+    console.error("Error fetching community by ID:", error);
+    throw error;
+  }
+}

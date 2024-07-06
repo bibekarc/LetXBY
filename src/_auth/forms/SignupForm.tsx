@@ -76,13 +76,17 @@ const SignupForm = () => {
     }
   };
 
-  const googleAuth = () => {
+
+  const googleAuth = (e) => {
+    e.preventDefault();
+
     account.createOAuth2Session(
       OAuthProvider.Google,
       "https://letxby.vercel.app",
       "https://letxby.vercel.app/sign-in"
     );
   };
+
 
   return (
     <Form {...form}>
@@ -169,7 +173,7 @@ const SignupForm = () => {
           <p className="flex justify-center">OR</p>
           <Button
             className="google-button_primary  "
-            onClick={() => googleAuth()}
+            onClick={(e) => googleAuth(e)}
           >
             Google
           </Button>

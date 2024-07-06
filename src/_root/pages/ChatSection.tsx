@@ -6,6 +6,8 @@ import { userStore } from "@/state/userStore";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { chatStore } from "@/state/chatsStore";
+import { useGetCommunityById } from "@/lib/react-query/queriesAndMutations";
+import { Loader } from "@/components/shared";
 
 export default function ChatSection() {
   const { id } = useParams(); // community ID
@@ -16,6 +18,14 @@ export default function ChatSection() {
   const [loading, setLoading] = useState(false);
   const isFetched = useRef(false);
   const chatState = chatStore();
+  const { data: currentCommunity } = useGetCommunityById(id || "");
+
+  if (!currentCommunity)
+    return (
+      <div className="flex-center w-full h-full">
+        <Loader />
+      </div>
+    );
 
   useEffect(() => {
     if (id) {
@@ -125,13 +135,18 @@ export default function ChatSection() {
     <div className="chat-page">
       <div className="common-container w-full md:w-3/4 mx-auto p-4 flex">
         <div className="chat-container relative w-full md:w-11/12 rounded-xl overflow-hidden border border-dark-4 min-h-screen">
-          <Link to={`/community`} className="relative z-50">
-            <img
-              src={"/assets/icons/larrow.png"}
-              alt="profile"
-              className="h-10 w-10"
-            />
-          </Link>
+          <div className=" flex justify-evenly">
+            <div>
+              <h1>{currentCommunity.name}</h1>
+            </div>
+            <Link to={`/community`} className="relative z-50">
+              <img
+                src={"/assets/icons/larrow.png"}
+                alt="profile"
+                className="h-10 w-10"
+              />
+            </Link>
+          </div>
           <div className="absolute inset-0 flex justify-center items-center z-0">
             <div className="bg-shape1 bg-teal z-10"></div>
             <div className="bg-shape2 bg-primary z-10"></div>

@@ -60,7 +60,9 @@ const SigninForm = () => {
     }
   };
 
-  const googleAuth = () => {
+  const googleAuth = (e) => {
+    e.preventDefault();
+
     account.createOAuth2Session(
       OAuthProvider.Google,
       "https://letxby.vercel.app",
@@ -129,7 +131,7 @@ const SigninForm = () => {
 
           <Button
             className="google-button_primary  "
-            onClick={() => googleAuth()}
+            onClick={(e) => googleAuth(e)}
           >
             Google
           </Button>

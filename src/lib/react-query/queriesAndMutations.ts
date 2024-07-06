@@ -26,9 +26,9 @@ import {
   getSavedPosts,
   deleteSavedPost,
   savePost,
+  getCommunityById,
 } from "@/lib/appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
-
 
 // ============================================================
 // AUTH QUERIES
@@ -46,7 +46,6 @@ export const useSignInAccount = () => {
       signInAccount(user),
   });
 };
-
 
 export const useSignOutAccount = () => {
   return useMutation({
@@ -80,7 +79,6 @@ export const useSavePost = () => {
     },
   });
 };
-
 
 export const useGetSavedPosts = (userId: string) => {
   return useQuery({
@@ -258,5 +256,13 @@ export const useUpdateUser = () => {
         queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
       });
     },
+  });
+};
+
+export const useGetCommunityById = (communityId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_BY_ID, communityId],
+    queryFn: () => getCommunityById(communityId),
+    enabled: !!communityId,
   });
 };
