@@ -1,12 +1,13 @@
-import { ProgressBar } from "react-loader-spinner";
+import { Triangle } from "react-loader-spinner";
 
 const Loader = () => (
   <div className="flex-center w-full">
-    <ProgressBar
+    <Triangle
       visible={true}
-      height="80"
-      width="80"
-      ariaLabel="progress-bar-loading"
+      height="35"
+      width="35"
+      color="#FFA500"
+      ariaLabel="triangle-loading"
       wrapperStyle={{}}
       wrapperClass=""
     />
