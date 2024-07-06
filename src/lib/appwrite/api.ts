@@ -616,20 +616,20 @@ export const getComments = async () => {
   }
 };
 
-// ============================== GET USER BY ID
-export async function getCommunityById(communityId: string) {
-  try {
-    const user = await databases.getDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.CommunitiesId,
-      communityId
-    );
+// // ============================== GET USER BY ID
+// export async function getCommunityById(communityId: string) {
+//   try {
+//     const user = await databases.getDocument(
+//       appwriteConfig.databaseId,
+//       appwriteConfig.CommunitiesId,
+//       communityId
+//     );
 
-    if (!user) throw new Error("Community not found");
+//     if (!user) throw new Error("Community not found");
 
-    return user;
-  } catch (error) {
-    console.error("Error fetching community by ID:", error);
-    throw error;
-  }
-}
+//     return user;
+//   } catch (error) {
+//     console.error("Error fetching community by ID:", error);
+//     throw error;
+//   }
+// }

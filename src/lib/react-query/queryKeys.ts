@@ -22,5 +22,5 @@ export enum QUERY_KEYS {
   GET_SAVED_POSTS = "getSavedPosts",
 
   // Community Key
-  GET_COMMUNITY_BY_ID = "getCommunityById",
+  // GET_COMMUNITY_BY_ID = "getCommunityById",
 }

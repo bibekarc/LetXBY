@@ -6,8 +6,8 @@ import { userStore } from "@/state/userStore";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { chatStore } from "@/state/chatsStore";
-import { useGetCommunityById } from "@/lib/react-query/queriesAndMutations";
-import { Loader } from "@/components/shared";
+// import { useGetCommunityById } from "@/lib/react-query/queriesAndMutations";
+// import { Loader } from "@/components/shared";
 
 export default function ChatSection() {
   const { id } = useParams(); // community ID
@@ -18,14 +18,14 @@ export default function ChatSection() {
   const [loading, setLoading] = useState(false);
   const isFetched = useRef(false);
   const chatState = chatStore();
-  const { data: currentCommunity } = useGetCommunityById(id || "");
+  // const { data: currentCommunity } = useGetCommunityById(id || "");
 
-  if (!currentCommunity)
-    return (
-      <div className="flex-center w-full h-full">
-        <Loader />
-      </div>
-    );
+  // if (!currentCommunity)
+  //   return (
+  //     <div className="flex-center w-full h-full">
+  //       <Loader />
+  //     </div>
+  //   );
 
   useEffect(() => {
     if (id) {
@@ -137,7 +137,7 @@ export default function ChatSection() {
         <div className="chat-container relative w-full md:w-11/12 rounded-xl overflow-hidden border border-dark-4 min-h-screen">
           <div className=" flex justify-around">
             <div>
-              <h1>{currentCommunity.name}</h1>
+              <h1>This is Eel On Musk !</h1>
             </div>
             <Link to={`/community`} className="relative z-50">
               <img

@@ -26,7 +26,7 @@ import {
   getSavedPosts,
   deleteSavedPost,
   savePost,
-  getCommunityById,
+  // getCommunityById,
 } from "@/lib/appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
 
@@ -259,10 +259,10 @@ export const useUpdateUser = () => {
   });
 };
 
-export const useGetCommunityById = (communityId: string) => {
-  return useQuery({
-    queryKey: [QUERY_KEYS.GET_USER_BY_ID, communityId],
-    queryFn: () => getCommunityById(communityId),
-    enabled: !!communityId,
-  });
-};
+// export const useGetCommunityById = (communityId: string) => {
+//   return useQuery({
+//     queryKey: [QUERY_KEYS.GET_USER_BY_ID, communityId],
+//     queryFn: () => getCommunityById(communityId),
+//     enabled: !!communityId,
+//   });
+// };
